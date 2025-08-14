@@ -98,7 +98,9 @@ class AndroidController:
         adb_command = f"adb -s {self.device} shell wm size"
         result = execute_adb(adb_command)
         if result != "ERROR":
-            return map(int, result.split(": ")[1].split("x"))
+            physical_size = result.split('\n')[0]
+            width, height = map(int, physical_size.split(": ")[1].split('x'))
+            return width, height
         return 0, 0
 
     def get_screenshot(self, prefix, save_dir):
